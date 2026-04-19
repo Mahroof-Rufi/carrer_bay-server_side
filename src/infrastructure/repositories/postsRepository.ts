@@ -460,7 +460,7 @@ class PostsRepository implements IPostsRepository {
                 { $count: "totalPosts" }      
             ]);
             
-            return postsCount[0].totalPosts
+            return postsCount[0]?.totalPosts || 0
         } catch (error) {
             console.log(error);
             throw error
