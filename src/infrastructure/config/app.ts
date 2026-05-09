@@ -21,6 +21,13 @@ export const createServer = () => {
             credentials:true
         }))
 
+        app.get('/health', (_req, res) => {
+            res.status(200).json({
+                status: 'ok',
+                timestamp: new Date().toISOString()
+            })
+        })
+
         app.use('/api/auth', authRouter)
         app.use('/api/users', userRouter)
         app.use('/api/employers', employerRouter)
