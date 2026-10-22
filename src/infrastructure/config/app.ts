@@ -2,6 +2,7 @@ import express from 'express'
 import cors from 'cors'
 
 import authRouter from '../routes/authRouter'
+import authRouterV2 from '../routes/v2/authRouter'
 import userRouter from '../routes/userRouter'
 import employerRouter from '../routes/employerRouter'
 import adminRouter from '../routes/adminRouter'
@@ -29,6 +30,8 @@ export const createServer = () => {
         })
 
         app.use('/api/auth', authRouter)
+        app.use('/api/v2/auth', authRouterV2)
+        
         app.use('/api/users', userRouter)
         app.use('/api/employers', employerRouter)
         app.use('/api/admin', adminRouter)
