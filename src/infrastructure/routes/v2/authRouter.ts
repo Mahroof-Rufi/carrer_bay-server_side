@@ -2,6 +2,7 @@ import express from 'express';
 // import { userController, employerController, adminController } from '../../providers/controllers';
 // import upload from '../../middlewares/multer';
 import { Request, Response } from 'express-serve-static-core';
+import { userControllerV2 } from '../../../providers/controllers';
 
 const router = express.Router();
 // const verificationDocumentHandler = upload.single('verificationDocument');
@@ -10,7 +11,7 @@ const router = express.Router();
 // const handleUserSendOTP = (req: Request, res: Response) => userController.sendOTP(req, res);
 // const handleUserLogin = (req: Request, res: Response) => userController.logIn(req, res);
 // const handleUserRefreshToken = (req: Request, res: Response) => userController.refreshToken(req, res);
-// const handleUserRegister = (req: Request, res: Response) => userController.signUp(req, res);
+const handleUserRegister = (req: Request, res: Response) => userControllerV2.createUserAccount(req, res);
 // const handleUserForgotPasswordSendOTP = (req: Request, res: Response) => userController.forgotPasswordSendOTP(req, res);
 // const handleUserResetPassword = (req: Request, res: Response) => userController.resetPassword(req, res);
 // const handleUserGoogleAuthRegister = (req: Request, res: Response) => userController.googleRegister(req, res);
@@ -31,7 +32,7 @@ const router = express.Router();
 // router.post('/user/send-otp', handleUserSendOTP);
 // router.post('/user/login', handleUserLogin);
 // router.post('/user/refresh-token', handleUserRefreshToken);
-// router.post('/user/register', handleUserRegister);
+router.post('/user/create-account', handleUserRegister);
 // router.route('/user/forgot-password')
 //     .post(handleUserForgotPasswordSendOTP)
 //     .patch(handleUserResetPassword);
