@@ -13,14 +13,14 @@ enum UserType {
 }
 
 model users {
-  id         Int      @id @default(autoincrement()) @unique
-  full_name  String
-  user_name  String   @unique
-  password   String
-  email      String   @unique
-  user_type  UserType
-  isActive   Boolean  @default(false)
-  OTP        Int?
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  id            Int      @id @default(autoincrement()) @unique
+  full_name     String
+  user_name     String   @unique
+  password      String
+  email         String   @unique
+  user_type     UserType
+  isActive      Boolean  @default(false)
+  security_code String?  @db.VarChar(11)
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
 }

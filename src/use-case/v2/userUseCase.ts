@@ -24,7 +24,7 @@ class UserUseCaseV2 implements IUserUseCase{
 
 
     async createUserAccount(userData: any) {
-        await this._userRepository.insertUser(userData)
+        await this._userRepository.insertUser(userData);
         return {
             status: 200,
             message: 'User registration successful'

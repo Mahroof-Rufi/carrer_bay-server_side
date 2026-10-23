@@ -31,6 +31,26 @@ class UserRepositoryV2 implements IUserRepository {
         }
     }
 
+    async insertUserSecurityCode(userId: number, securityCode: string): Promise<any> {
+        try {
+            if (!userId || !securityCode) {
+                throw new Error("User ID and Security Code are required");
+            }
+            const res = await prisma.users.update({
+                where: {
+                    id: userId
+                },
+                data: {
+                    security_code: securityCode
+                },
+            });
+            return res;
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
+    }
+
 }
 
 export default UserRepositoryV2
