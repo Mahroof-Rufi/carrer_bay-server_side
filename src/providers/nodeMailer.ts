@@ -16,12 +16,13 @@ class NodeMailer implements mailer {
         });
     }
 
-    sendMail(email: string, otp: number): boolean {
+    sendMail(email: string, subject: string, text?: string, html?: string): boolean {
         let mailOption = {
             from: process.env.GMAIL,
             to: email,
-            subject: 'CAREER-BAY \n OTP for email verification',
-            text: `Your OTP is :${otp}`
+            subject: subject,
+            text: text,
+            html: html
         };
     
         try {

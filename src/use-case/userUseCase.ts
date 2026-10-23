@@ -31,7 +31,7 @@ class UserUseCase implements IUserUseCase{
         const OTP = this._OTPgenerator.generateOTP()   
         const user = await this._userRepository.findByEmail(email) 
         if (!user) {
-            const res = await this._mailer.sendMail(email,parseInt(OTP));
+            const res = await this._mailer.sendMail(email, 'CAREER-BAY \n OTP for email verification', `Your OTP is :${parseInt(OTP)}`);
             this._userOTPRepo.insertOTP(email,parseInt(OTP))
             if (res) {
                 return {
@@ -167,7 +167,7 @@ class UserUseCase implements IUserUseCase{
         const user = await this._userRepository.findByEmail(email)       
         if(user) {
             const OTP = this._OTPgenerator.generateOTP()
-            const res = await this._mailer.sendMail(email, parseInt(OTP))
+            const res = await this._mailer.sendMail(email, 'CAREER-BAY \n OTP for email verification', `Your OTP is :${parseInt(OTP)}`);
             await this._userOTPRepo.insertOTP(email, parseInt(OTP))
             if (res) {
                 return {
@@ -526,7 +526,7 @@ class UserUseCase implements IUserUseCase{
             }
         }
         const OTP = this._OTPgenerator.generateOTP()
-        const res = await this._mailer.sendMail(currentEmail,parseInt(OTP));
+        const res = await this._mailer.sendMail(currentEmail, 'CAREER-BAY \n OTP for email verification', `Your OTP is :${parseInt(OTP)}`);
         this._userOTPRepo.insertOTP(currentEmail,parseInt(OTP))
         if (res) {
             return {

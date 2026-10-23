@@ -22,7 +22,7 @@ class EmployerUseCase implements IEmployerUseCase{
         const OTP = this._OTPGenerator.generateOTP()
         const employer = await this._employerRepository.findByEmail(email)
         if (!employer) {
-            const res = await this._mailer.sendMail(email,parseInt(OTP))
+            const res = await this._mailer.sendMail(email, 'CAREER-BAY \n OTP for email verification', `Your OTP is :${parseInt(OTP)}`)
             this._employerOTPRepository.insertOTP(email,parseInt(OTP))
             if (res) {
                 return {
@@ -150,7 +150,7 @@ class EmployerUseCase implements IEmployerUseCase{
         
         if(company) {
             const OTP = this._OTPGenerator.generateOTP()
-            const res = await this._mailer.sendMail(email, parseInt(OTP))
+            const res = await this._mailer.sendMail(email, 'CAREER-BAY \n OTP for email verification', `Your OTP is :${parseInt(OTP)}`)
             this._employerOTPRepository.insertOTP(email, parseInt(OTP))
             if (res) {
                 return {

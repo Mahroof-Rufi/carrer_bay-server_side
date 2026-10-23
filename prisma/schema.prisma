@@ -20,6 +20,7 @@ model users {
   email      String   @unique
   user_type  UserType
   isActive   Boolean  @default(false)
+  OTP        Int?
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 }
