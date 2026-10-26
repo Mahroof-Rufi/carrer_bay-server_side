@@ -8,8 +8,8 @@ datasource db {
 }
 
 enum UserType {
-  emp
-  cand
+  EMPLOYER
+  CANDIDATE
 }
 
 model users {

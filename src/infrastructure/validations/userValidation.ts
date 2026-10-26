@@ -8,7 +8,7 @@ export const registerSchema = z.object({
         .min(6, "Password must be at least 6 characters long")
         .refine((password) => password.trim().length > 0, "Password is required"),
     confirmPassword: z.string().min(1, "Please confirm your password"),
-    userType: z.enum(['emp', 'cand'], {
+    userType: z.enum(['EMPLOYER', 'CANDIDATE'], {
         error: "Wrong user type.",
     }),
 }).refine((data) => data.password === data.confirmPassword, {

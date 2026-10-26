@@ -32,7 +32,7 @@ const handleUserRegister = (req: Request, res: Response) => userControllerV2.cre
 // router.post('/user/send-otp', handleUserSendOTP);
 // router.post('/user/login', handleUserLogin);
 // router.post('/user/refresh-token', handleUserRefreshToken);
-router.post('/user/create-account', handleUserRegister);
+router.post('/create-account', handleUserRegister);
 // router.route('/user/forgot-password')
 //     .post(handleUserForgotPasswordSendOTP)
 //     .patch(handleUserResetPassword);

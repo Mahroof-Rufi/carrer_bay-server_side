@@ -4,7 +4,7 @@ export interface User {
     userName: string,
     email: string,
     password: string;
-    userType: 'emp' | 'cand',
+    userType: 'EMPLOYER' | 'CANDIDATE',
     is_active: boolean,
     created_at: Date,
     updated_at: Date,
