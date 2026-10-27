@@ -2,6 +2,8 @@ import bcrypt from "bcrypt";
 
 import IUserRepository from "../../../interfaces/iRepositories/v2/iUserRepository";
 import { User } from "../../../interfaces/models/v2/user";
+import { ApiError } from "../../../providers/apiError";
+import { toApiError } from "../../../providers/prismaError";
 import { prisma } from "../../config/prisma";
 
 class UserRepositoryV2 implements IUserRepository {
@@ -9,8 +11,7 @@ class UserRepositoryV2 implements IUserRepository {
     async insertUser(user:User): Promise<any> {
         try {
             if (typeof user.password !== "string" || user.password.length === 0) {
-                console.log(user)
-                throw new Error("Password is required");
+                throw new ApiError(400, "Password is required", "VALIDATION_ERROR");
             }
 
             const salt = await bcrypt.genSalt(10);                                       
@@ -26,8 +27,7 @@ class UserRepositoryV2 implements IUserRepository {
             });
             return newUser;
         } catch (error) {
-            console.log(error);            
-            throw error
+            throw toApiError(error);
         }
     }
 

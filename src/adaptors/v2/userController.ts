@@ -1,6 +1,8 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import userUseCase from "../../use-case/v2/userUseCase";
 import { registerSchema } from "../../infrastructure/validations/userValidation";
+import { ApiError } from "../../providers/apiError";
+import { ApiResponse } from "../../providers/apiResponse";
 
 class UserControllerV2 {
 
@@ -8,7 +10,7 @@ class UserControllerV2 {
         private readonly _userUseCase: userUseCase
     ) { }
 
-    async createUserAccount(req: Request, res: Response) {
+    async createUserAccount(req: Request, res: Response, next: NextFunction) {
         try {
             const userData = {
                 fullName: req.body.fullName, 
@@ -21,15 +23,17 @@ class UserControllerV2 {
 
             const validatedUserData = registerSchema.safeParse(userData);
             if (!validatedUserData.success) {
-                return res.status(400).json({
-                    message: validatedUserData.error.issues[0]?.message ?? "Validation failed",
-                });
+                throw new ApiError(
+                    400,
+                    validatedUserData.error.issues[0]?.message ?? "Validation failed",
+                    "VALIDATION_ERROR",
+                    validatedUserData.error.issues
+                );
             }
             const user = await this._userUseCase.createUserAccount(validatedUserData.data);
-            return res.status(201).json(user.message);
+            return new ApiResponse(201, user.message).send(res);
         } catch (error) {
-            console.log(error);
-            return res.status(500).json({ message: 'Something went wrong' });
+            next(error);
         }
     }
 

@@ -10,6 +10,7 @@ import jobsRouter from '../routes/jobsRouter'
 import postsRouter from '../routes/postsRouter'
 import jobApplicantsRouter from '../routes/jobApplicantsRouter'
 import chatRouter from '../routes/chatRouter'
+import errorMiddleware from '../../middlewares/errorHandler'
 
 export const createServer = () => {
 
@@ -21,7 +22,6 @@ export const createServer = () => {
             methods:'GET,HEAD,PUT,PATCH,POST,DELETE',
             credentials:true
         }))
-
         app.get('/health', (_req, res) => {
             res.status(200).json({
                 status: 'ok',
@@ -39,6 +39,8 @@ export const createServer = () => {
         app.use('/api/posts', postsRouter)
         app.use('/api/job-applicants', jobApplicantsRouter)
         app.use('/api/chat', chatRouter)
+
+        app.use(errorMiddleware)
 
         return app        
     } catch (error) {
