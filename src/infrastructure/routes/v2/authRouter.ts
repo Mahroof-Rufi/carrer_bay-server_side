@@ -12,6 +12,8 @@ const router = express.Router();
 // const handleUserLogin = (req: Request, res: Response) => userController.logIn(req, res);
 // const handleUserRefreshToken = (req: Request, res: Response) => userController.refreshToken(req, res);
 const handleUserRegister = (req: Request, res: Response, next: NextFunction) => userControllerV2.createUserAccount(req, res, next);
+const handleUserVerify = (req: Request, res: Response, next: NextFunction) => userControllerV2.verifyUserAccount(req, res, next);
+const handleUserResendVerificationCode = (req: Request, res: Response, next: NextFunction) => userControllerV2.resendVerificationCode(req, res, next);
 // const handleUserForgotPasswordSendOTP = (req: Request, res: Response) => userController.forgotPasswordSendOTP(req, res);
 // const handleUserResetPassword = (req: Request, res: Response) => userController.resetPassword(req, res);
 // const handleUserGoogleAuthRegister = (req: Request, res: Response) => userController.googleRegister(req, res);
@@ -33,6 +35,8 @@ const handleUserRegister = (req: Request, res: Response, next: NextFunction) => 
 // router.post('/user/login', handleUserLogin);
 // router.post('/user/refresh-token', handleUserRefreshToken);
 router.post('/create-account', handleUserRegister);
+router.post('/verify-account', handleUserVerify);
+router.post('/resend-verification-code', handleUserResendVerificationCode);
 // router.route('/user/forgot-password')
 //     .post(handleUserForgotPasswordSendOTP)
 //     .patch(handleUserResetPassword);

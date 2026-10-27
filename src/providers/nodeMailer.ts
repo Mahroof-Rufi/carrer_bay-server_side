@@ -16,7 +16,7 @@ class NodeMailer implements mailer {
         });
     }
 
-    sendMail(email: string, subject: string, text?: string, html?: string): boolean {
+    async sendMail(email: string, subject: string, text?: string, html?: string): Promise<boolean> {
         let mailOption = {
             from: process.env.GMAIL,
             to: email,
@@ -26,7 +26,7 @@ class NodeMailer implements mailer {
         };
     
         try {
-            this._transporter.sendMail(mailOption);
+            await this._transporter.sendMail(mailOption);
             return true;
         } catch (err) {
             console.error('Error sending email:', err);

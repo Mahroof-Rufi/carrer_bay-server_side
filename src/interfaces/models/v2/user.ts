@@ -9,3 +9,11 @@ export interface User {
     created_at: Date,
     updated_at: Date,
 }
+
+export interface CreateUserInput {
+    fullName: string,
+    userName: string,
+    email: string,
+    password: string,
+    userType: 'EMPLOYER' | 'CANDIDATE',
+}

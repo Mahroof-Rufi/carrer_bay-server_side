@@ -60,7 +60,7 @@ const userUseCase = new UserUseCase(userRepository,employerRepository,chatsRepos
 const chatUseCase = new ChatUseCase(chatsRepository,userRepository,jwt);
 
 // UseCases V2
-const userUseCaseV2 = new UserUseCaseV2(userRepositoryV2);
+const userUseCaseV2 = new UserUseCaseV2(userRepositoryV2, mailer);
 
 // Controllers
 export const adminController = new AdminController(adminUseCase);

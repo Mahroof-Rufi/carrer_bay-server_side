@@ -1,9 +1,11 @@
 
-import { User } from "../../models/v2/user"
+import { CreateUserInput } from "../../models/v2/user"
 
 interface IUserUseCase {
 
-    createUserAccount(userData:User): Promise<any>
+    createUserAccount(userData: CreateUserInput): Promise<{ message: string }>
+    verifyUserAccount(email: string, securityCode: string): Promise<{ message: string }>
+    resendVerificationCode(email: string): Promise<{ message: string }>
 
 }
 

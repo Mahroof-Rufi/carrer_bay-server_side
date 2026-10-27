@@ -15,3 +15,15 @@ export const registerSchema = z.object({
     message: "Passwords do not match",
     path: ["confirmPassword"],
 });
+
+export const verifyUserSchema = z.object({
+    email: z.string().trim().pipe(z.email("Invalid email format")),
+    securityCode: z.string().regex(
+        /^[ABCDEFGHJKLMNPQRSTUVWXYZ23456789]{3}-[ABCDEFGHJKLMNPQRSTUVWXYZ23456789]{3}-[ABCDEFGHJKLMNPQRSTUVWXYZ23456789]{3}$/,
+        "Security code must match the format",
+    ),
+});
+
+export const resendVerificationCodeSchema = z.object({
+    email: z.string().trim().pipe(z.email("Invalid email format")),
+});
