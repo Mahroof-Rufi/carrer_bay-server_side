@@ -7,18 +7,20 @@ import {
 } from "../../infrastructure/validations/userValidation";
 import { ApiError } from "../../providers/apiError";
 import { ApiResponse } from "../../providers/apiResponse";
+import Jwt from "../../providers/jwt";
 
 class UserControllerV2 {
 
     constructor(
-        private readonly _userUseCase: userUseCase
+        private readonly _userUseCase: userUseCase,
+        private readonly _jwtService: Jwt
     ) { }
 
     async createUserAccount(req: Request, res: Response, next: NextFunction) {
         try {
             const userData = {
-                fullName: req.body.fullName, 
-                userName: req.body.userName, 
+                fullName: req.body.fullName,
+                userName: req.body.userName,
                 email: req.body.email,
                 password: req.body.password,
                 confirmPassword: req.body.confirmPassword,
@@ -57,7 +59,17 @@ class UserControllerV2 {
                 validatedData.data.email,
                 validatedData.data.securityCode
             );
-            return new ApiResponse(200, result.message).send(res);
+            const token = this._jwtService.createAccessToken(result.user_id, 'CANDIDATE');
+            if (!token) {
+                throw new ApiError(
+                    400,
+                    "Token Generation failed",
+                    "TOKEN_ERROR",
+                );
+            }
+            return new ApiResponse(200, result.message).setCookie('auth_cookie', token, {
+                maxAge: 1 * 24 * 60 * 60 * 1000,
+            }).send(res);
         } catch (error) {
             next(error);
         }

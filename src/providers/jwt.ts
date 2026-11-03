@@ -12,10 +12,9 @@ class Jwt {
         this._secretKey = process.env.JWT_Secret || "";
     }
 
-    createAccessToken(id: string, role: string): string | undefined {
+    createAccessToken(id: string | number, role: string): string | undefined {
         try {
-            console.log('create token',role, '  ',id);
-            
+
             if (!this._secretKey) {
                 throw new Error('Secret key is undefined');
             }
@@ -31,7 +30,7 @@ class Jwt {
 
     createRefreshToken(id: string, role: string): string | undefined {
         try {
-            
+
             if (!this._secretKey) {
                 throw new Error('Secret key is undefined');
             }
@@ -45,11 +44,11 @@ class Jwt {
         }
     }
 
-    verifyToken(token:string,role: 'User' | 'Employer' | 'Admin'): JwtPayload | null {
+    verifyToken(token: string, role: 'User' | 'Employer' | 'Admin'): JwtPayload | null {
         try {
             const decodedToken = verify(token, this._secretKey) as JwtPayload;
             return decodedToken
-        } catch (error:any) {
+        } catch (error: any) {
             if (error.name == 'TokenExpiredError') {
                 switch (role) {
                     case 'User':
@@ -74,15 +73,15 @@ class Jwt {
                     status: 40,
                     message: 'Invalid Token'
                 }
-            }           
+            }
         }
     }
 
-    verifyRefreshToken(token:string): JwtPayload | null {
+    verifyRefreshToken(token: string): JwtPayload | null {
         try {
             const decodedToken = verify(token, this._secretKey) as JwtPayload;
             return decodedToken
-        } catch (error:any) {
+        } catch (error: any) {
             if (error.name == 'TokenExpiredError') {
                 return {
                     status: 401,
@@ -94,7 +93,7 @@ class Jwt {
                     status: 40,
                     message: 'Invalid Token'
                 }
-            }           
+            }
         }
     }
 

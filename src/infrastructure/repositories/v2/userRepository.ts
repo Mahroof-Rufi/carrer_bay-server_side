@@ -48,24 +48,22 @@ class UserRepositoryV2 implements IUserRepository {
         }
     }
 
-    async findUserForVerification(email: string): Promise<{ id: number, isActive: boolean } | null> {
+    async findUserForVerification(email: string): Promise<{ id: number, security_code: string | null, isActive: boolean } | null> {
         try {
             return await prisma.users.findUnique({
                 where: { email },
-                select: { id: true, isActive: true },
+                select: { id: true, security_code: true, isActive: true },
             });
         } catch (error) {
             throw toApiError(error);
         }
     }
 
-    async verifyUserAccount(email: string, securityCode: string): Promise<boolean> {
+    async activateUserAccount(email: string): Promise<boolean> {
         try {
-            const result = await prisma.users.updateMany({
+            const result = await prisma.users.update({
                 where: {
                     email,
-                    security_code: securityCode,
-                    security_code_expires_at: { gt: new Date() },
                     isActive: false,
                 },
                 data: {
@@ -74,7 +72,7 @@ class UserRepositoryV2 implements IUserRepository {
                     security_code_expires_at: null,
                 },
             });
-            return result.count === 1;
+            return result ? true : false;
         } catch (error) {
             throw toApiError(error);
         }

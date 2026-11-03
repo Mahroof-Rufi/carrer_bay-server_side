@@ -5,7 +5,7 @@ interface IUserRepository {
     insertUser(user: CreateUserInput): Promise<{ id: number }>
     insertUserSecurityCode(userId: number, securityCode: string, expiresAt: Date): Promise<void>
     findUserForVerification(email: string): Promise<{ id: number, isActive: boolean } | null>
-    verifyUserAccount(email: string, securityCode: string): Promise<boolean>
+    activateUserAccount(email: string): Promise<boolean>
 }
 
 export default IUserRepository

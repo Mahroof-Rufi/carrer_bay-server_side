@@ -51,13 +51,13 @@ const savedJobsAndPostsRepository = new SavedJobsAndPostsRepository()
 const chatsRepository = new ChatRepository()
 
 // UseCases
-const adminUseCase = new AdminUseCase(adminRepository,userRepository,employerRepository,jobsRepository,appliedJobsRepository,jobApplicantsRepository,jwt);
-const employerUseCase = new EmployerUseCase(employerRepository,employerOTPRepository,OTPGenerator,mailer,jwt);
-const jobApplicantsUseCase = new JobApplicantsUseCase(jobApplicantsRepository,appliedJobsRepository,jwt);
-const jobsUseCase = new JobsUseCase(jwt,jobsRepository,savedJobsAndPostsRepository);
-const postsUseCase = new PostsUseCase(jwt,postsRepository,savedJobsAndPostsRepository);
-const userUseCase = new UserUseCase(userRepository,employerRepository,chatsRepository,jwt,OTPGenerator,mailer,userOTPRepository);
-const chatUseCase = new ChatUseCase(chatsRepository,userRepository,jwt);
+const adminUseCase = new AdminUseCase(adminRepository, userRepository, employerRepository, jobsRepository, appliedJobsRepository, jobApplicantsRepository, jwt);
+const employerUseCase = new EmployerUseCase(employerRepository, employerOTPRepository, OTPGenerator, mailer, jwt);
+const jobApplicantsUseCase = new JobApplicantsUseCase(jobApplicantsRepository, appliedJobsRepository, jwt);
+const jobsUseCase = new JobsUseCase(jwt, jobsRepository, savedJobsAndPostsRepository);
+const postsUseCase = new PostsUseCase(jwt, postsRepository, savedJobsAndPostsRepository);
+const userUseCase = new UserUseCase(userRepository, employerRepository, chatsRepository, jwt, OTPGenerator, mailer, userOTPRepository);
+const chatUseCase = new ChatUseCase(chatsRepository, userRepository, jwt);
 
 // UseCases V2
 const userUseCaseV2 = new UserUseCaseV2(userRepositoryV2, mailer);
@@ -72,4 +72,4 @@ export const userController = new UserController(userUseCase);
 export const chatController = new ChatController(chatUseCase);
 
 // Controllers V2
-export const userControllerV2 = new UserControllerV2(userUseCaseV2);
+export const userControllerV2 = new UserControllerV2(userUseCaseV2, jwt);

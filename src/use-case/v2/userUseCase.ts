@@ -20,13 +20,17 @@ class UserUseCaseV2 implements IUserUseCase {
         return { message: "User created. Check your email for the verification code." };
     }
 
-    async verifyUserAccount(email: string, securityCode: string): Promise<{ message: string }> {
-        const verified = await this._userRepository.verifyUserAccount(email, securityCode);
-        if (!verified) {
+    async verifyUserAccount(email: string, securityCode: string): Promise<{ user_id: number, message: string }> {
+        const user = await this._userRepository.findUserForVerification(email);
+        if (user?.security_code !== securityCode) {
             throw new ApiError(400, "Invalid or expired verification code", "INVALID_VERIFICATION_CODE");
         }
 
-        return { message: "Email verified successfully" };
+        const verifyUser = await this._userRepository.activateUserAccount(email);
+        if (verifyUser) {
+            return { user_id: user.id, message: "Email verified successfully" };
+        }
+        throw new ApiError(400, "Something went wrong while activating user account", "SOMETHING_WENT_WRONG");
     }
 
     async resendVerificationCode(email: string): Promise<{ message: string }> {
