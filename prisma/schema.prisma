@@ -19,7 +19,7 @@ model users {
   password      String
   email         String   @unique
   user_type     UserType
-  isActive      Boolean  @default(false)
+  is_active     Boolean  @default(false)
   security_code String?  @db.VarChar(11)
   security_code_expires_at DateTime? @db.Timestamp(3)
   created_at    DateTime @default(now())

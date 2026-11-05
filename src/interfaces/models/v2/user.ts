@@ -5,9 +5,9 @@ export interface User {
     email: string,
     password: string;
     userType: 'EMPLOYER' | 'CANDIDATE',
-    is_active: boolean,
-    created_at: Date,
-    updated_at: Date,
+    isActive: boolean,
+    createdAt: Date,
+    updatedAt: Date,
 }
 
 export interface CreateUserInput {
@@ -17,3 +17,7 @@ export interface CreateUserInput {
     password: string,
     userType: 'EMPLOYER' | 'CANDIDATE',
 }
+
+export type UserForVerification = Omit<User, "password" | "createdAt" | "updatedAt"> & {
+    security_code: string | null;
+};

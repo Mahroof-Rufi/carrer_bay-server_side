@@ -59,7 +59,7 @@ class UserControllerV2 {
                 validatedData.data.email,
                 validatedData.data.securityCode
             );
-            const token = this._jwtService.createAccessToken(result.user_id, 'CANDIDATE');
+            const token = this._jwtService.createAccessToken(result.data.id, 'CANDIDATE');
             if (!token) {
                 throw new ApiError(
                     400,
@@ -67,7 +67,7 @@ class UserControllerV2 {
                     "TOKEN_ERROR",
                 );
             }
-            return new ApiResponse(200, result.message).setCookie('auth_cookie', token, {
+            return new ApiResponse(200, result.message, result.data).setCookie('auth_cookie', token, {
                 maxAge: 1 * 24 * 60 * 60 * 1000,
             }).send(res);
         } catch (error) {

@@ -1,10 +1,10 @@
-import { CreateUserInput } from "../../models/v2/user";
+import { CreateUserInput, UserForVerification } from "../../models/v2/user";
 
 interface IUserRepository {
 
     insertUser(user: CreateUserInput): Promise<{ id: number }>
     insertUserSecurityCode(userId: number, securityCode: string, expiresAt: Date): Promise<void>
-    findUserForVerification(email: string): Promise<{ id: number, isActive: boolean } | null>
+    findUserForVerification(email: string): Promise<UserForVerification | null>
     activateUserAccount(email: string): Promise<boolean>
 }
 

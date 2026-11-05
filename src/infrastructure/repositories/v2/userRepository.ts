@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 
 import IUserRepository from "../../../interfaces/iRepositories/v2/iUserRepository";
-import { CreateUserInput } from "../../../interfaces/models/v2/user";
+import { CreateUserInput, UserForVerification } from "../../../interfaces/models/v2/user";
 import { ApiError } from "../../../providers/apiError";
 import { toApiError } from "../../../providers/prismaError";
 import { prisma } from "../../config/prisma";
@@ -48,12 +48,32 @@ class UserRepositoryV2 implements IUserRepository {
         }
     }
 
-    async findUserForVerification(email: string): Promise<{ id: number, security_code: string | null, isActive: boolean } | null> {
+    async findUserForVerification(email: string): Promise<UserForVerification | null> {
         try {
-            return await prisma.users.findUnique({
+            const user = await prisma.users.findUnique({
                 where: { email },
-                select: { id: true, security_code: true, isActive: true },
+                select: {
+                    id: true,
+                    full_name: true,
+                    user_name: true,
+                    email: true,
+                    user_type: true,
+                    security_code: true,
+                    is_active: true,
+                },
             });
+
+            if (!user) return null;
+
+            return {
+                id: user.id,
+                fullName: user.full_name,
+                userName: user.user_name,
+                email: user.email,
+                userType: user.user_type,
+                isActive: user.is_active,
+                security_code: user.security_code,
+            };
         } catch (error) {
             throw toApiError(error);
         }
@@ -64,10 +84,10 @@ class UserRepositoryV2 implements IUserRepository {
             const result = await prisma.users.update({
                 where: {
                     email,
-                    isActive: false,
+                    is_active: false,
                 },
                 data: {
-                    isActive: true,
+                    is_active: true,
                     security_code: null,
                     security_code_expires_at: null,
                 },
@@ -80,4 +100,4 @@ class UserRepositoryV2 implements IUserRepository {
 
 }
 
-export default UserRepositoryV2
+export default UserRepositoryV2;

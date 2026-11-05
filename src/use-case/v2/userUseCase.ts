@@ -1,5 +1,5 @@
 import userRepository from "../../infrastructure/repositories/v2/userRepository";
-import { CreateUserInput } from "../../interfaces/models/v2/user";
+import { CreateUserInput, UserForVerification } from "../../interfaces/models/v2/user";
 import { ApiError } from "../../providers/apiError";
 import { generateThreePartCode } from "../../providers/generateCode";
 import NodeMailer from "../../providers/nodeMailer";
@@ -16,21 +16,21 @@ class UserUseCaseV2 implements IUserUseCase {
     async createUserAccount(userData: CreateUserInput): Promise<{ message: string }> {
         const user = await this._userRepository.insertUser(userData);
         await this.sendVerificationCode(user.id, userData.email);
-
         return { message: "User created. Check your email for the verification code." };
     }
 
-    async verifyUserAccount(email: string, securityCode: string): Promise<{ user_id: number, message: string }> {
+    async verifyUserAccount(email: string, securityCode: string): Promise<{ data: UserForVerification, message: string }> {
         const user = await this._userRepository.findUserForVerification(email);
         if (user?.security_code !== securityCode) {
             throw new ApiError(400, "Invalid or expired verification code", "INVALID_VERIFICATION_CODE");
         }
 
         const verifyUser = await this._userRepository.activateUserAccount(email);
-        if (verifyUser) {
-            return { user_id: user.id, message: "Email verified successfully" };
-        }
-        throw new ApiError(400, "Something went wrong while activating user account", "SOMETHING_WENT_WRONG");
+        if (!verifyUser) {
+            throw new ApiError(400, "Something went wrong while activating user account", "SOMETHING_WENT_WRONG");
+        };
+        // delete user.security_code;
+        return { data: user, message: "Email verified successfully" }
     }
 
     async resendVerificationCode(email: string): Promise<{ message: string }> {
