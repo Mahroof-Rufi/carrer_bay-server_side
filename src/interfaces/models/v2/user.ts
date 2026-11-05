@@ -18,6 +18,7 @@ export interface CreateUserInput {
     userType: 'EMPLOYER' | 'CANDIDATE',
 }
 
-export type UserForVerification = Omit<User, "password" | "createdAt" | "updatedAt"> & {
+export type UserForVerification = Omit<User, "password" | "createdAt" | "updatedAt" | "userType"> & {
     security_code: string | null;
+    role: string;
 };

@@ -70,7 +70,7 @@ class UserRepositoryV2 implements IUserRepository {
                 fullName: user.full_name,
                 userName: user.user_name,
                 email: user.email,
-                userType: user.user_type,
+                role: user.user_type,
                 isActive: user.is_active,
                 security_code: user.security_code,
             };
